@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 # Defaults...
 BK_DEFAULT_AWS_ARGS=""
@@ -32,7 +33,7 @@ if [[ ! "$OSTYPE" == "darwin"* ]]; then
       BK_TAR_ARGS=("$BK_TAR_ADDITIONAL_ARGS" -zcf)
     fi
     BK_TAR_EXTENSION="tar.gz"
-    BK_TAR_EXTRACT_ARGS="-xzf"
+    BK_TAR_EXTRACT_ARGS="--atime-preserve=replace -xpf"
   else
     BK_TAR_ARGS=("$BK_TAR_ADDITIONAL_ARGS" -cf)
   fi
@@ -115,7 +116,7 @@ function restore() {
 
   if [[ ! "${BK_AWS_FOUND}" =~ (false) ]]; then
     TMP_FILE="$(mktemp)"
-    aws s3 cp ${BK_CUSTOM_AWS_ARGS} "s3://${BUCKET}/${TAR_FILE}" "${TMP_FILE}"  || s3_download_failed=true
+    aws s3 cp ${BK_CUSTOM_AWS_ARGS} --no-progress "s3://${BUCKET}/${TAR_FILE}" "${TMP_FILE}"  || s3_download_failed=true
     if ${s3_download_failed:-false}; then
       echo -e "S3 download failed, soft failing and skipping cache restore..."
       return 0
