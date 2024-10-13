@@ -12,7 +12,7 @@ BK_CACHE_LOCAL_PATH="${BUILDKITE_PLUGIN_CACHE_S3_SAVE_CACHE_DIR:-/tmp}"
 BK_TAR_ARGS=()
 BK_TAR_ADDITIONAL_ARGS="--ignore-failed-read"
 BK_TAR_EXTENSION="tar"
-BK_TAR_EXTRACT_ARGS="-xf"
+BK_TAR_EXTRACT_ARGS="--atime-preserve=replace -xpf"
 
 if [[ ! "$OSTYPE" == "darwin"* ]]; then
   shell_exec=$(
