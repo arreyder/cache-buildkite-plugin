@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 
 # Defaults...
 BK_DEFAULT_AWS_ARGS=""
